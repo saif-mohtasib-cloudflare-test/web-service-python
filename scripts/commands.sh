@@ -77,3 +77,36 @@ source venv/bin/activate
 ps aux | grep gunicorn
 kill -9 PSID  # replace PSID with the ids that the grep returns
 gunicorn --bind 127.0.0.1:8080 main:app # start the app again
+
+# Step 7
+# to install worker
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+sudo npm install -g wrangler
+wrangler login
+
+export CLOUDFLARE_API_TOKEN=API_TOKEN
+echo 'export CLOUDFLARE_API_TOKEN=API_TOKEN' >> ~/.bashrc
+source ~/.bashrc
+wrangler whoami
+
+# After worker is authenticated, lets get one from scratch
+wrangler init web-service-worker
+
+# After the init is done
+nano wrangler.jsonc
+# add the following
+#        "routes": [
+#                "https://tunnel.honeywagonfilms.com/secure*"
+#        ]
+
+# After creating the bucket
+nano wrangler.jsonc
+#"r2_buckets": [
+#  {
+#    "binding": "FLAGS_BUCKET",
+#    "bucket_name": "flags",
+#    "preview_bucket_name": "flags"
+#  }
+#]
+wrangler deploy
