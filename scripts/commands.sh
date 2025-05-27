@@ -43,3 +43,29 @@ sudo systemctl reload nginx
 # Step 3
 sudo apt install certbot python3-certbot-nginx -y
 sudo certbot --nginx -d proxy.honeywagonfilms.com
+
+# Step 4
+# Stage 1
+wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64
+sudo mv cloudflared-linux-amd64 /usr/local/bin/cloudflared
+sudo chmod +x /usr/local/bin/cloudflared
+# Once successful, execute this:
+cloudflared tunnel login
+
+# Step 4
+# Stage 2
+cloudflared tunnel create your-tunnel-name # i used for the first hf and for the second hfs
+sudo mkdir -p /etc/cloudflared
+sudo nano /etc/cloudflared/config.yml
+# this the configuration for the funnel
+#tunnel:tunnel-id # tunnel id was printed on terminal in the previous step
+#credentials-file: /home/you_user/.cloudflared/tunnel-id.json # same tunnel id, your_user
+#ingress:
+#  - hostname: tunnel.yourdoaminname.com
+#    service: http://localhost:8080
+#  - service: http_status:404
+# this could be done as well from the dashboard
+
+# create a new record type CNAME, name tunnel
+cloudflared tunnel route dns hf-tunnel tunnel.honeywagonfilms.com
+cloudflared tunnel run hf-tunnel
