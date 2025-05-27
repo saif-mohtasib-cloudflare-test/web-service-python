@@ -39,3 +39,7 @@ sudo nano /etc/nginx/sites-available/web-service-python
 # The reload nginx
 sudo nginx -t
 sudo systemctl reload nginx
+
+# Step 3
+sudo apt install certbot python3-certbot-nginx -y
+sudo certbot --nginx -d proxy.honeywagonfilms.com
