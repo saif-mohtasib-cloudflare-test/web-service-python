@@ -69,3 +69,11 @@ sudo nano /etc/cloudflared/config.yml
 # create a new record type CNAME, name tunnel
 cloudflared tunnel route dns hf-tunnel tunnel.honeywagonfilms.com
 cloudflared tunnel run hf-tunnel
+
+# Step 6
+cd web-service-python/
+git pull origin main
+source venv/bin/activate
+ps aux | grep gunicorn
+kill -9 PSID  # replace PSID with the ids that the grep returns
+gunicorn --bind 127.0.0.1:8080 main:app # start the app again
