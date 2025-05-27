@@ -1,3 +1,4 @@
+# STEP 1
 sudo apt update # makes that its up to date
 sudo apt install nano -y # installed text editor, it could be also vim
 sudo apt install git -y # installed git
@@ -31,3 +32,10 @@ sudo nginx -t
 sudo systemctl restart nginx
 
 gunicorn --bind 127.0.0.1:8080 main:app
+
+# Step 2
+sudo nano /etc/nginx/sites-available/web-service-python
+# Change the server name to be the suffix (proxy) and the domain name
+# The reload nginx
+sudo nginx -t
+sudo systemctl reload nginx
